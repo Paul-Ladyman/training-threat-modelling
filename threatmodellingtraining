@@ -1,0 +1,113 @@
+Threat Modelling
+----------------
+
+https://github.com/geoffrey-hill-tutamantic/rapid-threat-model-prototyping-docs
+
+Attack Kill Chain
+================
+
+- information gathering
+- network mapping
+- vulnerability identification
+- penetration
+- privilege escalation
+- maintaining access
+
+Defense in Depth
+================
+
+Each layer has independent security and should protect the layers above it. The top-most layer is the most important.
+
+- data
+- application
+- host
+- internal network
+- network perimeter
+- physical security
+- policies, process, governance
+
+Security Taxonomies
+====================
+
+STRIDE - Spoofing (no authentication), Tampering (no data integrity), Repudiation (ability to remove evidence of attack), Information Disclosure (no confidentiality),
+Denial of Service (no availability), Elevation of Privilege (no authorization)
+https://en.wikipedia.org/wiki/STRIDE_(security)
+
+OWASP - provides amongst other thing the Top 10 security risks year on year
+https://www.owasp.org/images/7/72/OWASP_Top_10-2017_%28en%29.pdf.pdf
+
+CAPEC - MITRE, CVE, CWE
+https://capec.mitre.org/index.html
+https://cwe.mitre.org/
+
+Threat Modelling
+================
+
+Protect Assets
+Identify Risk as probability x impact
+Identify Flaws in the system
+
+Asset Based - What are you protecting?
+Attacker Based - using STRIDE
+Defensive Based - what to protect against?
+
+Four steps: Model the system - Analyse threats (using STRIDE) - Analyse mitigations - Validate
+
+Attacker's Advantage: Attackers often have a lot of time and resources to find vulnerabilities in the systems they're attacking
+Defender's Dilemma: Every part of a system must be defended. Even one weak link can bring down a whole system.
+
+Similar applications may reuse threat models for speed.
+
+Mitigations
+===========
+
+- Accept the threat risk. Sometimes necessary for business reasons. Sometimes the business decides not to delay features to fix threats. This should obviously be avoided.
+- Fix the threat.
+- Reduce the risk.
+
+Rapid Threat Model Prototyping Methodology
+==========================================
+
+- Model the system
+- Add numbered Trust Zones to the diagram. Increasing numbers are increasingly severe in terms of threat.
+0 - outside of the application
+1 - boundary zones, ingress to the system
+n (highest) - often the assets to be protected themselves. Usually places where data hits the disk
+- Add zone rules - Apply STRIDE to the diagram
+-- spoofing threats happen on elements connecting uncontrolled areas (0) to inside zones
+-- tampering threats exist on dataflows connecting lower to higher zones
+-- Repudiation threats exist on elements that have spoofing and tampering
+-- information disclosure happens on dataflows connecting higher to lower zones
+-- Denial or service threats exist on dataflows connected to an uncontrolled area (0)
+-- elevation of privilege threats exist on elements connecting lower to higher zones
+
+General Advice
+==============
+
+- Automate secure code reviews with analysis tools.
+https://www.sonarqube.org/
+https://www.owasp.org/index.php/OWASP_Dependency_Check
+https://snyk.io/
+Kiuwan (recommended by tutor)
+Checkmarx,
+Fortify
+
+- TDD for security. Use threats identified by threat modelling to create tests.
+
+- Include security requirements in the Definition of Done.
+
+Lab 1
+======
+
+Mapping OWASP top 10 (weaknesses) to STRIDE (attacks)
+
+Injection - Tampering, Information Disclosure, Denial of Service
+Broken Authentication - Spoofing, Information Disclosure, Elevation of Privilege, Repudiation
+Sensitive Data Exposure - Information Disclosure
+XXE - Tampering, Information Disclosure, Denial of Service
+Broken Access Control - Elevation of Privilege, Information Disclosure, Repudiation
+Security Misconfiguration - Elevation of Privilege, Information Disclosure, Denial of Service
+XXS - Tampering, Spoofing, Information Disclosure
+Insecure Deserialization - Tampering, Information Disclosure, Denial of Service
+Known Vulnerabilities - Tampering, Elevation of Privilege, Information Disclosure
+Insufficient Monitering - Repudiation, Tampering, denail of Service
